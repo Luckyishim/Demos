@@ -23,7 +23,6 @@ public class Main {
 
     private static final int TOTAL_CUSTOMERS = 50;
 
-
     public static void main(String[] args) throws InterruptedException {
         SimulationMetrics metrics  = new SimulationMetrics();
         LaundryFacility   facility = new LaundryFacility(metrics);
