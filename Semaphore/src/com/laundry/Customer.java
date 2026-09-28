@@ -38,44 +38,44 @@ public class Customer implements Runnable {
 
             // --- WASH phase ---
             int washerId = facility.acquireWasher();
-            LaundryLogger.log(tag, "Acquired Washer " + washerId);
+            LaundryLogger.log(tag, "Acquired Washer " + (washerId + 1));
             boolean washSuccess = false;
             while (!washSuccess) {
-                long washTime = ThreadLocalRandom.current().nextLong(4000, 6001);
+                long washTime = ThreadLocalRandom.current().nextLong(4000, 6001) ;
                 TimeUnit.MILLISECONDS.sleep(washTime);
                 if (FailureSimulator.rollWasherFailure()) {
-                    LaundryLogger.log(tag, "Washer " + washerId + " failed! Re-washing...");
+                    LaundryLogger.log(tag, "Washer " + (washerId + 1) + " failed! Re-washing...");
                 } else {
                     washSuccess = true;
                 }
             }
             facility.releaseWasher(washerId);
-            LaundryLogger.log(tag, "Released Washer " + washerId);
+            LaundryLogger.log(tag, "Released Washer " + (washerId +1));
 
             // --- DRY phase ---
             int dryerId = facility.acquireDryer();
-            LaundryLogger.log(tag, "Acquired Dryer " + dryerId);
+            LaundryLogger.log(tag, "Acquired Dryer " + (dryerId + 1));
             long dryTime = ThreadLocalRandom.current().nextLong(3000, 5001);
             TimeUnit.MILLISECONDS.sleep(dryTime);
             facility.releaseDryer(dryerId);
-            LaundryLogger.log(tag, "Released Dryer " + dryerId);
+            LaundryLogger.log(tag, "Released Dryer " + (dryerId + 1));
 
             // --- PAY phase ---
             int kioskId = facility.acquireKiosk();
-            LaundryLogger.log(tag, "Acquired Kiosk " + kioskId);
+            LaundryLogger.log(tag, "Acquired Kiosk " + (kioskId + 1));
             boolean paySuccess = false;
             while (!paySuccess) {
                 long payTime = ThreadLocalRandom.current().nextLong(1000, 2001);
                 TimeUnit.MILLISECONDS.sleep(payTime);
                 if (FailureSimulator.rollKioskFailure()) {
-                    LaundryLogger.log(tag, "Kiosk " + kioskId + " payment failed — retrying in 2s");
+                    LaundryLogger.log(tag, "Kiosk " + (kioskId + 1) + " payment failed — retrying in 2s");
                     TimeUnit.SECONDS.sleep(2);
                 } else {
                     paySuccess = true;
                 }
             }
             facility.releaseKiosk(kioskId);
-            LaundryLogger.log(tag, "Released Kiosk " + kioskId);
+            LaundryLogger.log(tag, "Released Kiosk " + (kioskId + 1));
 
             // --- DONE ---
             long elapsed = System.currentTimeMillis() - startTime;

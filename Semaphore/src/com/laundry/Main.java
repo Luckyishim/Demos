@@ -23,6 +23,7 @@ public class Main {
 
     private static final int TOTAL_CUSTOMERS = 50;
 
+
     public static void main(String[] args) throws InterruptedException {
         SimulationMetrics metrics  = new SimulationMetrics();
         LaundryFacility   facility = new LaundryFacility(metrics);
@@ -37,14 +38,14 @@ public class Main {
         LaundryLogger.log("SYSTEM", "Customers: " + TOTAL_CUSTOMERS);
         System.out.println();
 
-        for (int i = 0; i < TOTAL_CUSTOMERS; i++) {
+        for (int i = 1; i <= TOTAL_CUSTOMERS; i++) {
             // Stagger arrivals: random 0–3 second delay between customers
             long delay = ThreadLocalRandom.current().nextLong(0, 3001);
             TimeUnit.MILLISECONDS.sleep(delay);
-            executor.submit(new Customer(i, facility, metrics, latch));
+            executor.submit(new Customer(i , facility, metrics, latch));
 
             // Trigger payment kiosk congestion bonus scenario after 20th customer
-            if (i == 19) {
+            if (i == 20) {
                 facility.disableKiosks();
             }
         }
